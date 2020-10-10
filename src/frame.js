@@ -19,7 +19,8 @@ class Frame {
     return (this.strike || this.spare)
   }
 
-  scoreCalculator() {
+  frameScoreCalculator() {
     this.score = this.shots.reduce((a,b) => a + b)
   }
 }
+//module.exports = Frame

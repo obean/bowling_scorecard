@@ -1,5 +1,5 @@
 describe( 'Frame', function() {
-  var frame;
+  //var frame;
   beforeEach(function() {
     frame = new Frame
   })
@@ -18,7 +18,7 @@ describe( 'Frame', function() {
       expect(frame.spare).toEqual(false)
     })
     it('sets spare to spare if you get a spare', function() {
-      frame = new Frame
+     // frame = new Frame
       frame.newShot(5)
       frame.newShot(5)
       frame.bonusAttributer()
@@ -28,20 +28,20 @@ describe( 'Frame', function() {
   })
   describe('roundGetsBonus', function(){
     it('returns true if its a spare but not a strike', function() {
-      frame = new Frame
+     // frame = new Frame
       frame.newShot(5)
       frame.newShot(5)
       frame.bonusAttributer()
       expect(frame.roundGetsBonus()).toEqual(true)
     })
     it('returns true if a strike but not a spare', function(){
-      frame = new Frame
+     // frame = new Frame
       frame.newShot(10);
       frame.bonusAttributer();
       expect(frame.roundGetsBonus()).toEqual(true)
     })
     it('returns false when neither a spare nor a strike', function() {
-      frame = new Frame
+     // frame = new Frame
       frame.newShot(5)
       frame.newShot(4)
       frame.bonusAttributer()
@@ -50,24 +50,24 @@ describe( 'Frame', function() {
   })
   describe('score calculator', function(){
     it('correctly sets a zero score', function(){
-      frame = new Frame
+     // frame = new Frame
       frame.newShot(0)
       frame.newShot(0)
-      frame.scoreCalculator();
+      frame.frameScoreCalculator();
       expect(frame.score).toEqual(0)
     })
     it('sets this.score to eq correct score when score is present', function(){
-      frame = new Frame
+     // frame = new Frame
       frame.newShot(5)
       frame.newShot(3)
-      frame.scoreCalculator();
+      frame.frameScoreCalculator();
       expect(frame.score).toEqual(8)
     })
     it('does not change the shots array', function(){
-      frame = new Frame
+     // frame = new Frame
       frame.newShot(5)
       frame.newShot(3)
-      frame.scoreCalculator();
+      frame.frameScoreCalculator();
       expect(frame.shots).toEqual([5,3])
     })
   })
