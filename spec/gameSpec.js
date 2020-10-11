@@ -11,6 +11,14 @@
 describe('game', function(){
   beforeEach(function() {
     game = new Game
+    playFrame = function(shot1,shot2) {
+      game.currentFrame.newShot(shot1)
+      if(shot2){game.currentFrame.newShot(shot2)}
+      game.currentFrame.bonusAttributer();
+      game.currentFrame.frameScoreCalculator()
+      game.startNextFrame();   
+      game.updateCurrentScore()
+    }
   })
 
   describe('frameEnded', function(){
@@ -77,14 +85,6 @@ describe('game', function(){
       expect(game.totalScore).toEqual(8)
     })
     it('keeps track of scores over several frames', function() {
-      // specShortcut.playAFrame(game,4,4)
-      // console.log(game.frames)
-      // specShortcut.playAFrame(game,10)
-      // console.log(game.frames)   //i failed at importing functions to use as shortcuts here
-      // specShortcut.playAFrame(game,6,3)
-      // console.log(game.frames)
-      // game.updateCurrentScore()
-      // expect(game.totalScore).toEqual(27)
       game.currentFrame.newShot(4)
       if(5){game.currentFrame.newShot(4)}
       game.currentFrame.frameScoreCalculator()
@@ -159,7 +159,7 @@ describe('game', function(){
       game.currentFrame.newShot(5)
       game.currentFrame.newShot(5)
       game.currentFrame.bonusAttributer()
-      console.log(game.currentFrame.spare  == true)
+    //  console.log(game.currentFrame.spare  == true)
       game.currentFrame.frameScoreCalculator()
       game.startNextFrame()
       game.currentFrame.newShot(4)
@@ -177,6 +177,88 @@ describe('game', function(){
       //console.log(game.frames.map( frame => frame.score))
       expect(game.frames[0].score).toEqual(14)
     })
+    it('works for a mixture of spares and strikes', function() {
+      playFrame(10);//18
+      playFrame(5,3);//8
+      playFrame(2,8);//17
+      playFrame(7,1);//8
+      playFrame(1,1);//2
+      expect(game.totalScore).toEqual(53)
+    })
   })
 
+  describe('addBonusRound', function(){
+    it('knows to add a bonus round when you get a strike in frame 10', function(){
+      for(var i = 0; i < 9; i++){playFrame(3,4)}
+      playFrame(10)
+      expect(game.addBonusRound()).toEqual(true)
+    })
+    it('knows not to add a bonus round when you dont get a strike in frame 10', function(){
+      for(var i = 0; i < 9; i++){playFrame(3,4)}
+      playFrame(9,0)
+      expect(game.addBonusRound()).toEqual(false)
+    })
+    it('knows to add a bonus round if you get a spare in the tenth frame', function() {
+      for(var i = 0; i < 9; i++){playFrame(3,4)}
+      playFrame(9,1)
+      expect(game.addBonusRound()).toEqual(true)
+    })
+    // it('knows not to add a bonus round when you dont get a spare in frame 10', function(){
+    //   for(var i = 0; i < 9; i++){playFrame(3,4)}
+    //   playFrame(9,0)
+    //   expect(game.addBonusRound()).toEqual(false)
+    // })
+  })//deleted test above as it was also covered in the previous strike negative test
+  describe('gameEnded', function(){
+    it('knows game has ended after 10 non-bonus frames',function(){
+      for(var i = 0; i < 10; i++){playFrame(3,4)}
+      expect(game.gameEnded()).toEqual(true)
+    })
+    it('knows when a frame hasnt finished after 9 frames',function(){
+      for(var i = 0; i < 9; i++){playFrame(3,4)}
+      expect(game.gameEnded()).toEqual(false)
+    })
+    it('knows a game hasn\t ended when you need a bonus frame', function(){
+      for(var i = 0; i < 9; i++){playFrame(3,4)}
+      playFrame(10)
+      expect(game.gameEnded()).toEqual(false)
+    })
+  })
+  describe('just want to see the final score totals', function() {
+    it('gets score correct with all strikes', function(){
+      for(var i = 0; i < 12; i++){
+      playFrame(10)}
+      expect(game.totalScore).toEqual(300)
+    })
+    it('gets correct score with all spares', function() {
+      for(var i = 0; i < 12; i++){
+        playFrame(5,5)}
+        // var y = game.frames.map(frame => frame.sc)
+        // console.log(game.)
+        expect(game.totalScore).toEqual(150)
+    })
+    it('gets the correct score for different scores with no bonus round', function() {
+      playFrame(10)
+      console.log(game.totalScore)
+      playFrame(5,5)
+      console.log(game.totalScore)
+      playFrame(1,2)
+      console.log(game.totalScore)
+      playFrame(9,1)
+      console.log(game.totalScore)
+      playFrame(7,2)
+      console.log(game.totalScore)
+      playFrame(8,1)
+      console.log(game.totalScore)
+      playFrame(2,4)
+      console.log(game.totalScore)
+      playFrame(5,2)
+      console.log(game.totalScore)
+      playFrame(4,1)
+      console.log(game.totalScore)
+      playFrame(9,0)
+      console.log(game.frames)
+      expect(game.totalScore).toEqual(96)
+    })
+  })
 })

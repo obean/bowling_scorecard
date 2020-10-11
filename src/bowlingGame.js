@@ -6,13 +6,13 @@ class Game {
     this.totalScore = 0
     this.currentFrame = new Frame
   }
-
+  //below function moved to Frame Class
   frameEnded() {
    return (this.currentFrame.shots.length == 2 || this.currentFrame.roundGetsBonus())
   }
 
   startNextFrame() {
-    if(this.frameEnded()){
+    if(this.currentFrame.frameEnded()){
       this.frames.push(this.currentFrame)
       this.currentFrame = new Frame
     }
@@ -20,7 +20,9 @@ class Game {
   }
 
   updateCurrentScore() {
-   var allScores =  this.frames.map((frame) => frame.score)
+   var nonBonusFrames = this.frames.filter(frame => this.frames.indexOf(frame) <= 10)
+  //if(this.frames.length > 9){console.log(nonBonusFrames)}
+   var allScores =  nonBonusFrames.map((frame) => frame.score)
 
    this.totalScore = allScores.reduce((a,b) => a + b )
   }
@@ -30,14 +32,28 @@ class Game {
       var followingRolls = this.frames[this.frames.length-2].shots.concat(this.frames[this.frames.length-1].shots)
       var pointsToAdd = followingRolls[0] + followingRolls[1]
       this.frames[this.frames.length-3].score += pointsToAdd
-      this.frames[this.frames.length-3].bonusAdded = true
+      this.frames[this.frames.length-3].bonusAdded = true 
     }else if(this.frames[this.frames.length-3].spare == true && this.frames[this.frames.length-2].bonusAdded == false){
       var pointsToAdd = this.frames[this.frames.length-2].shots[0]
-      console.log("to Add = " + this.frames[this.frames.length-2].shots[0])
       this.frames[this.frames.length-3].score += pointsToAdd
       this.frames[this.frames.length-3].bonusAdded = true
     }
 
   }
+  addBonusRound() {
+    if(this.frames.length === 10 && this.frames[this.frames.length-1].strike){
+      return true
+    }else if(this.frames.length === 10 && this.frames[this.frames.length-1].spare) {
+      return true
+    }else{return false} 
+  }
+  gameEnded() {
+    if(this.frames.length === 10 && !this.addBonusRound()) {
+      return true
+    }else{ 
+      return false }
+  }
+
+
 
 }

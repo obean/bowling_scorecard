@@ -1,10 +1,18 @@
 class Frame {
-  constructor() {
+  constructor(bonusType) {
     this.strike = false;
     this.spare = false;
     this.shots = new Array;
     this.score = 0;
     this.bonusAdded = false
+    this.bonusFrameType = undefined
+    if(bonusType == "strike"){
+       this.bonusFrameType = "strike"
+      }
+    if(bonusType == "spare"){ 
+      this.bonusFrameType = "spare"
+      this.bonusFrameEnded = false
+    }
   };
 
   newShot(score) {
@@ -26,6 +34,9 @@ class Frame {
     // for(var i = 0; i = this.score.length-1; i++){
     //   this.score += this.shots[i]
     // }
+  }
+  frameEnded() {
+    if(this.shots.length == 2 || this.strike == true || this.bonusFrameEnded == true){return true}
   }
 }
 //module.exports = Frame
