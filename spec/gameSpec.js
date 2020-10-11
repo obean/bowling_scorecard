@@ -13,7 +13,7 @@ describe('game', function(){
     game = new Game
     playFrame = function(shot1,shot2) {
       game.currentFrame.newShot(shot1)
-      if(shot2){game.currentFrame.newShot(shot2)}
+      if(shot2 != undefined){game.currentFrame.newShot(shot2)}
       game.currentFrame.bonusAttributer();
       game.currentFrame.frameScoreCalculator()
       game.startNextFrame();   
@@ -239,26 +239,30 @@ describe('game', function(){
     })
     it('gets the correct score for different scores with no bonus round', function() {
       playFrame(10)
-      console.log(game.totalScore)
       playFrame(5,5)
-      console.log(game.totalScore)
       playFrame(1,2)
-      console.log(game.totalScore)
       playFrame(9,1)
-      console.log(game.totalScore)
       playFrame(7,2)
-      console.log(game.totalScore)
       playFrame(8,1)
-      console.log(game.totalScore)
       playFrame(2,4)
-      console.log(game.totalScore)
       playFrame(5,2)
-      console.log(game.totalScore)
       playFrame(4,1)
-      console.log(game.totalScore)
       playFrame(9,0)
-      console.log(game.frames)
+      
+      game.startNextFrame()
+      // console.log(game.currentFrame.frameEnded())
+      // console.log(game.currentFrame)
+      // console.log(game.frames[game.frames.length-1].score + "???")
+      
+      // console.log(game.frames)
       expect(game.totalScore).toEqual(96)
+    })
+    it('gets strike in all but last frame', function() {
+      for(var i = 0; i < 10; i++){
+        playFrame(10)}
+        playFrame(1,1)
+        console.log(game.frames)
+        expect(game.totalScore).toEqual(273)
     })
   })
 })

@@ -37,6 +37,7 @@ class Frame {
   }
   frameEnded() {
     if(this.shots.length == 2 || this.strike == true || this.bonusFrameEnded == true){return true}
+    else{return false}
   }
 }
 //module.exports = Frame
