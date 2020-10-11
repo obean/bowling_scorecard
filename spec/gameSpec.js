@@ -1,10 +1,11 @@
-class specShortcut{
-  static playAFrame(game ,shotOne, shotTwo = 0) {
-    game.currentFrame.newShot(shotOne)
-    if(shotTwo){game.currentFrame.newShot(4)}
-    game.currentFrame.frameScoreCalculator()
-    game.startNextFrame()
-}}
+// class specShortcut{
+//   static playAFrame(game ,shotOne, shotTwo = 0) {
+//     var lame = new Game
+//     lame.currentFrame.newShot(shotOne)
+//     if(shotTwo){lame.currentFrame.newShot(4)}
+//     lame.currentFrame.frameScoreCalculator()
+//     lame.startNextFrame()
+// }}
 
 
 describe('game', function(){
@@ -118,6 +119,64 @@ describe('game', function(){
   })
   describe('add bonus frame', function() {
     //this function will add abonus frame, we expect this to be a different class because its different. 
+  })
+
+  describe('addBonusScores', function() {
+    it('adds next two roll\'s points for a strike', function() {
+    // game.currentFrame.newShot(4)
+      // game.currentFrame.newShot(10)
+      // game.currentFrame.frameScoreCalculator()
+      // game.startNextFrame()
+      // game.currentFrame.newShot(4)
+      // game.currentFrame.newShot(4)
+      // game.currentFrame.frameScoreCalculator()
+      // game.startNextFrame()
+      // game.currentFrame.newShot(0)
+      // game.currentFrame.newShot(4)
+      // game.currentFrame.frameScoreCalculator()
+      // game.startNextFrame()
+      // game.updateCurrentScore()
+      game.currentFrame.newShot(10)
+      game.currentFrame.bonusAttributer()
+      game.currentFrame.frameScoreCalculator()
+      game.startNextFrame()
+      game.currentFrame.newShot(4)
+      if(5){game.currentFrame.newShot(4)}
+      game.currentFrame.bonusAttributer()
+      game.currentFrame.frameScoreCalculator()
+      game.startNextFrame()
+      game.currentFrame.newShot(0)
+      if(5){game.currentFrame.newShot(4)}
+      game.currentFrame.bonusAttributer()
+      game.currentFrame.frameScoreCalculator()
+      game.startNextFrame()
+      // game.updateCurrentScore()
+      //expect(game.totalScore).toEqual(16)
+      //console.log(game.frames.map( frame => frame.score))
+      expect(game.frames[0].score).toEqual(18)
+    })
+    it('adds next rolls points for a spare', function() {
+      game.currentFrame.newShot(5)
+      game.currentFrame.newShot(5)
+      game.currentFrame.bonusAttributer()
+      console.log(game.currentFrame.spare  == true)
+      game.currentFrame.frameScoreCalculator()
+      game.startNextFrame()
+      game.currentFrame.newShot(4)
+      if(5){game.currentFrame.newShot(4)}
+      game.currentFrame.bonusAttributer()
+      game.currentFrame.frameScoreCalculator()
+      game.startNextFrame()
+      game.currentFrame.newShot(0)
+      if(5){game.currentFrame.newShot(4)}
+      game.currentFrame.bonusAttributer()
+      game.currentFrame.frameScoreCalculator()
+      game.startNextFrame()
+      // game.updateCurrentScore()
+      //expect(game.totalScore).toEqual(16)
+      //console.log(game.frames.map( frame => frame.score))
+      expect(game.frames[0].score).toEqual(14)
+    })
   })
 
 })
